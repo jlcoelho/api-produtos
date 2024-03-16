@@ -18,9 +18,7 @@ public class ProductTest
     public void Instantiate()
     {
         var validProduct = _productTestFixture.GetValidProduct();
-
         var product = new Product(validProduct.Name, validProduct.Stock, validProduct.Price);
-
         product.Should().NotBeNull();
         product.Name.Should().Be(validProduct.Name);
         product.Stock.Should().Be(validProduct.Stock);
