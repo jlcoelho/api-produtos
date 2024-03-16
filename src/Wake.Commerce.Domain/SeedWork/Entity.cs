@@ -1,11 +1,11 @@
 namespace Wake.Commerce.Domain.SeedWork;
 
-public abstract class BaseEntity
+public abstract class Entity
 {
     public Guid Id { get; protected set; }
 
 
-    protected BaseEntity()
+    protected Entity()
     {
         this.Id = Guid.NewGuid();
     }

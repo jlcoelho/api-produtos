@@ -1,9 +1,9 @@
-using Wake.Commerce.Domain.SeedWork;
+using SeedWork = Wake.Commerce.Domain.SeedWork;
 using Wake.Commerce.Domain.Validation;
 
 namespace Wake.Commerce.Domain.Entity;
 
-public class Product : BaseEntity
+public class Product : SeedWork.Entity
 {
     public string Name { get; private set; }
     public int Stock { get; private set; }
