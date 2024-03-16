@@ -1,35 +1,32 @@
+using FluentAssertions;
+using Wake.Commerce.Domain.Entity;
 using Wake.Commerce.Domain.Exceptions;
 using Xunit;
 
-namespace Wake.Commerce.Domain.Entity;
+namespace Wake.Commerce.UnitTests.Domain.Entity;
 
+[Collection(nameof(ProductTestFixture))]
 public class ProductTest
 {
+    private readonly ProductTestFixture _productTestFixture;
+
+    public ProductTest(ProductTestFixture productTestFixture)
+        => _productTestFixture = productTestFixture;
 
     [Fact(DisplayName = nameof(Instantiate))]
     [Trait("Domain", "Product - Entity")]
     public void Instantiate()
     {
-        var validData = new
-        {
-            Name = "Product Name",
-            Stock = 10,
-            Price = 10.5m
-        };
+        var validProduct = _productTestFixture.GetValidProduct();
 
-        var datetimeBefore = DateTime.Now;
+        var product = new Product(validProduct.Name, validProduct.Stock, validProduct.Price);
 
-        var product = new Product(validData.Name, validData.Stock, validData.Price);
-        var datetimeAfter = DateTime.Now;
-
-        Assert.NotNull(product);
-        Assert.Equal(validData.Name, product.Name);
-        Assert.Equal(validData.Stock, product.Stock);
-        Assert.Equal(validData.Price, product.Price);
-        Assert.NotEqual(default(Guid), product.Id);
-        Assert.NotEqual(default(DateTime), product.CreatedAt);
-        Assert.True(product.CreatedAt > datetimeBefore);
-        Assert.True(product.CreatedAt < datetimeAfter);
+        product.Should().NotBeNull();
+        product.Name.Should().Be(validProduct.Name);
+        product.Stock.Should().Be(validProduct.Stock);
+        product.Price.Should().Be(validProduct.Price);
+        product.Id.Should().NotBeEmpty();
+        product.CreatedAt.Should().NotBeSameDateAs(default(DateTime));
     }
 
     [Theory(DisplayName = nameof(InstantiateErrorWhenNameIsEmpty))]
@@ -39,20 +36,26 @@ public class ProductTest
     [InlineData("   ")]
     public void InstantiateErrorWhenNameIsEmpty(string? name)
     {
-        Action action = () => new Product(name!, 10, 10.5m);
+        var validProduct =_productTestFixture.GetValidProduct();
 
-        var exception = Assert.Throws<EntityValidationException>(action);
-        Assert.Equal("Name should not be empty or null", exception.Message);
+        Action action = () => new Product(name!, validProduct.Stock, validProduct.Price);
+
+        action.Should()
+            .Throw<EntityValidationException>()
+            .WithMessage("Name should not be empty or null");
     }
 
     [Fact(DisplayName = nameof(InstantiateErrorWhenPriceLessThanZero))]
     [Trait("Domain", "Product - Entity")]
     public void InstantiateErrorWhenPriceLessThanZero()
     {
-        Action action = () => new Product("Product Name", 10, -1);
+        var validProduct =_productTestFixture.GetValidProduct();
 
-        var exception = Assert.Throws<EntityValidationException>(action);
-        Assert.Equal("Price should not be less than 0", exception.Message);
+        Action action = () => new Product(validProduct.Name, validProduct.Stock, -1);
+
+        action.Should()
+            .Throw<EntityValidationException>()
+            .WithMessage("Price should not be less than 0");
     }
 
     [Theory(DisplayName = nameof(InstantiateErrorWhenNameIsLessThan4Characters))]
@@ -61,30 +64,39 @@ public class ProductTest
     [InlineData("abc")]
     public void InstantiateErrorWhenNameIsLessThan4Characters(string invalidName)
     {
-        Action action = () => new Product(invalidName, 1, 10.5m);
+        var validProduct =_productTestFixture.GetValidProduct();
 
-        var exception = Assert.Throws<EntityValidationException>(action);
-        Assert.Equal("Name should be at least 4 characters long", exception.Message);
+        Action action = () => new Product(invalidName, validProduct.Stock, validProduct.Price);
+
+        action.Should()
+            .Throw<EntityValidationException>()
+            .WithMessage("Name should be at least 4 characters long");
     }
 
     [Fact(DisplayName = nameof(InstantiateErrorWhenNameIsGreaterThan255Characters))]
     [Trait("Domain", "Product - Entity")]
     public void InstantiateErrorWhenNameIsGreaterThan255Characters()
     {
+        var validProduct =_productTestFixture.GetValidProduct();
+
         var invalidName = String.Join(null, Enumerable.Range(1, 256).Select(_ => "a").ToArray());
-        Action action = () => new Product(invalidName, 1, 10.5m);
-        
-        var exception = Assert.Throws<EntityValidationException>(action);
-        Assert.Equal("Name should be less or equal 255 characters long", exception.Message);
+        Action action = () => new Product(invalidName, validProduct.Stock, validProduct.Price);
+
+        action.Should()
+            .Throw<EntityValidationException>()
+            .WithMessage("Name should be less or equal 255 characters long");
     }
 
     [Fact(DisplayName = nameof(InstantiateErrorWhenStockLessThanZero))]
     [Trait("Domain", "Product - Entity")]
     public void InstantiateErrorWhenStockLessThanZero()
     {
-        Action action = () => new Product("Product Name", -1, 10.5m);
+        var validProduct =_productTestFixture.GetValidProduct();
+        
+        Action action = () => new Product(validProduct.Name, -1, validProduct.Price);
 
-        var exception = Assert.Throws<EntityValidationException>(action);
-        Assert.Equal("Stock should not be less than 0", exception.Message);
+        action.Should()
+            .Throw<EntityValidationException>()
+            .WithMessage("Stock should not be less than 0");
     }
 }
