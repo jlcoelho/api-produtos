@@ -1,26 +1,31 @@
+using Moq;
+using Wake.Commerce.Application.Interfaces;
+using Wake.Commerce.Domain;
 using Wake.Commerce.Domain.Entity;
 using Wake.Commerce.UnitTests.Common;
-using Xunit;
 
-namespace Wake.Commerce.UnitTests.Domain.Entity;
+namespace Wake.Commerce.UnitTests.Application.Common;
 
-public class ProductTestFixture : BaseFixture
+public abstract class ProductUseCasesBaseFixture
+    : BaseFixture
 {
-    public ProductTestFixture() : base()
-    {
-    }
+
+    public Mock<IProductRepository> GetRepositoryMock()
+        => new();
+
+    public Mock<IUnitOfWork> GetUnitOfWorkMock()
+        => new();
 
     public string GetValidProductName()
     {
         var productName = "";
-        while(productName.Length < 4)
+        while (productName.Length < 4)
             productName = Faker.Commerce.ProductName();
         if (productName.Length > 255)
             productName = productName[..255];
-
         return productName;
     }
-
+    
     public int GetValidProductStock()
     {
         return Faker.Random.Int(0, 1000);
@@ -31,15 +36,10 @@ public class ProductTestFixture : BaseFixture
         return Faker.Random.Decimal(0m, Faker.Random.Decimal(0, 100000));
     }
 
-    public Product GetValidProduct() {
-        return new Product(
-            GetValidProductName(), 
-            GetValidProductStock(), 
+    public Product GetExampleProduct()
+        => new Product(
+            GetValidProductName(),
+            GetValidProductStock(),
             GetValidProductPrice()
         );
-    }
 }
-
-[CollectionDefinition(nameof(ProductTestFixture))]
-public class ProductTestFixtureCollection : ICollectionFixture<ProductTestFixture>
-{ }
