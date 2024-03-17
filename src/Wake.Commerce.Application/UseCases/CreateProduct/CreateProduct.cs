@@ -1,5 +1,6 @@
 
 using Wake.Commerce.Application.Interfaces;
+using Wake.Commerce.Application.UseCases.Common;
 using Wake.Commerce.Domain;
 using Wake.Commerce.Domain.Entity;
 
@@ -16,22 +17,15 @@ public class CreateProduct : ICreateProduct
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CreateProductOutput> Execute(
+    public async Task<ProductOutput> Handle(
         CreateProductInput input, 
         CancellationToken cancellationToken)
     {
         var product = new Product(input.Name, input.Stock, input.Price);
 
         await _productRepository.Insert(product, cancellationToken);
-
         await _unitOfWork.Commit(cancellationToken);
 
-        return new CreateProductOutput(
-            product.Id,
-            product.Name,
-            product.Stock,
-            product.Price,
-            product.CreatedAt
-        );
+        return ProductOutput.FromProduct(product);
     }
 }

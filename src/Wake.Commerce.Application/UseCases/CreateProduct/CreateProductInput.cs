@@ -1,6 +1,9 @@
+using MediatR;
+using Wake.Commerce.Application.UseCases.Common;
+
 namespace Wake.Commerce.Application.UseCases.CreateProduct;
 
-public class CreateProductInput
+public class CreateProductInput : IRequest<ProductOutput>
 {
     public string Name { get; set; }
     public int Stock { get; set; }

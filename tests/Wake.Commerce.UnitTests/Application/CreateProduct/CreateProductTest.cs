@@ -30,7 +30,7 @@ public class CreateProductTest
 
         var input = _fixture.GetInput();
 
-        var output = await useCase.Execute(input, CancellationToken.None);
+        var output = await useCase.Handle(input, CancellationToken.None);
 
         repositoryMock.Verify(
             repository => repository.Insert(
@@ -70,7 +70,7 @@ public class CreateProductTest
             _fixture.GetUnitOfWorkMock().Object
         );
 
-        Func<Task> task = async () => await useCase.Execute(input, CancellationToken.None);
+        Func<Task> task = async () => await useCase.Handle(input, CancellationToken.None);
 
         await task.Should()
             .ThrowAsync<EntityValidationException>()
