@@ -40,7 +40,7 @@ public class Product : SeedWork.Entity
 
     public void Validate()
     {
-
+        
         DomainValidation.NotNullOrEmpty(Name, nameof(Name));
         DomainValidation.MinLength(Name, 4, nameof(Name));
         DomainValidation.MaxLength(Name, 255, nameof(Name));
@@ -48,5 +48,3 @@ public class Product : SeedWork.Entity
         DomainValidation.MinValue(Price, 0, nameof(Price));
     }
 }
-
-
