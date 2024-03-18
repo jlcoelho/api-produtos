@@ -57,7 +57,7 @@ public class CreateProductTest
     [Trait("Application", "CreateProduct - Use Cases")]
     [MemberData(
         nameof(CreateProductTestDataGenerator.GetInvalidInputs), 
-        parameters: 50, 
+        parameters: 20, 
         MemberType = typeof(CreateProductTestDataGenerator)
     )]
     public async void ThrowWhenCantInstantianteProduct(

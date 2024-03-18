@@ -44,7 +44,7 @@ public class CreateProductTestFixture : ProductUseCasesBaseFixture
         return productInput;      
     }
 
-        public CreateProductInput GetInvalidInputPriceLessThanZero()
+    public CreateProductInput GetInvalidInputPriceLessThanZero()
     {
         var productInput = GetInput();
         productInput.Price = -2.5m;

@@ -1,7 +1,7 @@
 using Moq;
 using Wake.Commerce.Application.Interfaces;
-using Wake.Commerce.Domain;
 using Wake.Commerce.Domain.Entity;
+using Wake.Commerce.Domain.Repository;
 using Wake.Commerce.UnitTests.Common;
 
 namespace Wake.Commerce.UnitTests.Application.Common;
