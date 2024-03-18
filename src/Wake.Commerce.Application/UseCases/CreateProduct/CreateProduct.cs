@@ -1,8 +1,8 @@
 
 using Wake.Commerce.Application.Interfaces;
 using Wake.Commerce.Application.UseCases.Common;
-using Wake.Commerce.Domain;
 using Wake.Commerce.Domain.Entity;
+using Wake.Commerce.Domain.Repository;
 
 namespace Wake.Commerce.Application.UseCases.CreateProduct;
 
