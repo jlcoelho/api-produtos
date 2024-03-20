@@ -13,6 +13,6 @@ services:
     depends_on:
       - sqlserver
     volumes:
-      - ./create-database.sql:/tmp/create-database.sql
-      - ./create-database.sh:/tmp/create-database.sh
+      - ./.docker/sqlserver/create-database.sql:/tmp/create-database.sql
+      - ./.docker/create-database.sh:/tmp/create-database.sh
     command: /bin/bash ./tmp/create-database.sh
