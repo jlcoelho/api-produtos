@@ -19,18 +19,8 @@ public class UpdateProduct : IUpdateProduct
     public async Task<ProductOutput> Handle(UpdateProductInput request, CancellationToken cancellationToken)
     {
         var product = await _productRepository.Get(request.Id, cancellationToken);
-        
-        if (request.Name != null) {
-            product.UpdateName(request.Name);
-        }
 
-        if (request.Stock != null) {
-            product.UpdateStock((int)request.Stock);
-        }
-
-        if (request.Price != null) {
-            product.UpdatePrice((decimal)request.Price);
-        }
+        product.Update(request.Name, request.Stock, request.Price);
 
         await _productRepository.Update(product, cancellationToken);
         await _unitOfWork.Commit(cancellationToken);

@@ -5,8 +5,8 @@ namespace Wake.Commerce.Application.UseCases.CreateProduct;
 
 public interface ICreateProduct : IRequestHandler<CreateProductInput, ProductOutput>
 {
-    // public new Task<ProductOutput> Handle(
-    //     CreateProductInput input, 
-    //     CancellationToken cancellationToken
-    // );
+    public new Task<ProductOutput> Handle(
+        CreateProductInput input, 
+        CancellationToken cancellationToken
+    );
 }

@@ -20,21 +20,29 @@ public class Product : SeedWork.Entity
         Validate();
     }
 
-    public void UpdateName(string name)
-    {
-        Name = name;
-        Validate();
-    }
+    // public void UpdateName(string name)
+    // {
+    //     Name = name;
+    //     Validate();
+    // }
 
-    public void UpdateStock(int stock)
-    {
-        Stock = stock;
-        Validate();
-    }
+    // public void UpdateStock(int stock)
+    // {
+    //     Stock = stock;
+    //     Validate();
+    // }
 
-    public void UpdatePrice(decimal price)
+    // public void UpdatePrice(decimal price)
+    // {
+    //     Price = price;
+    //     Validate();
+    // }
+
+    public void Update(string? name = null, int? stock = null, decimal? price = null)
     {
-        Price = price;
+        Name = name ?? Name;
+        Stock = stock ?? Stock;
+        Price = price ?? Price;
         Validate();
     }
 
