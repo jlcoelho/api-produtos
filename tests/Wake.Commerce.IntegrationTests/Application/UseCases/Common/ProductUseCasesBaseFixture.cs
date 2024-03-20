@@ -10,7 +10,7 @@ public class ProductUseCasesBaseFixture
     {
         var productName = "";
         while (productName.Length < 3)
-            productName = Faker.Commerce.Categories(1)[0];
+            productName = Faker.Commerce.ProductName();
         if (productName.Length > 255)
             productName = productName[..255];
         return productName;

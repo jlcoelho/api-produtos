@@ -20,12 +20,12 @@ public class DeleteProductTest
     {
         var repositoryMock = _fixture.GetRepositoryMock();
         var unitOfWorkMock = _fixture.GetUnitOfWorkMock();
-        var categoryExample = _fixture.GetExampleProduct();
+        var productExample = _fixture.GetExampleProduct();
         repositoryMock.Setup(x => x.Get(
-            categoryExample.Id,
+            productExample.Id,
             It.IsAny<CancellationToken>())
-        ).ReturnsAsync(categoryExample);
-        var input = new UseCase.DeleteProductInput(categoryExample.Id);
+        ).ReturnsAsync(productExample);
+        var input = new UseCase.DeleteProductInput(productExample.Id);
         var useCase = new UseCase.DeleteProduct(
             repositoryMock.Object,
             unitOfWorkMock.Object);
@@ -33,11 +33,11 @@ public class DeleteProductTest
         await useCase.Handle(input, CancellationToken.None);
 
         repositoryMock.Verify(x => x.Get(
-            categoryExample.Id,
+            productExample.Id,
             It.IsAny<CancellationToken>()
         ), Times.Once);
         repositoryMock.Verify(x => x.Delete(
-            categoryExample,
+            productExample,
             It.IsAny<CancellationToken>()
         ), Times.Once);
         unitOfWorkMock.Verify(x => x.Commit(

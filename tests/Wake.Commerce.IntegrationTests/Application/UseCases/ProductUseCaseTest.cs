@@ -155,10 +155,10 @@ public class CreateProductTest
         var exampleProductsList = _fixture.GetExampleProductsList(10);
         await dbContext.AddRangeAsync(exampleProductsList);
         await dbContext.SaveChangesAsync(CancellationToken.None);
-        var categoryRepository = new ProductRepository(dbContext);
+        var productRepository = new ProductRepository(dbContext);
         var input = new ListProductsInput(1, 20);
         var useCase = new ApplicationUseCases.ListProducts.ListProducts(
-            categoryRepository
+            productRepository
         );
 
         var output = await useCase.Handle(input, CancellationToken.None);
@@ -172,7 +172,7 @@ public class CreateProductTest
         foreach (ProductOutput outputItem in output.Items)
         {
             var exampleItem = exampleProductsList.Find(
-                category => category.Id == outputItem.Id
+                product => product.Id == outputItem.Id
             );
             exampleItem.Should().NotBeNull();
             outputItem.Name.Should().Be(exampleItem!.Name);
@@ -187,10 +187,10 @@ public class CreateProductTest
     public async Task SearchReturnsEmptyWhenEmpty()
     {
         WakeCommerceDbContext dbContext = _fixture.CreateDbContext();
-        var categoryRepository = new ProductRepository(dbContext);
+        var productRepository = new ProductRepository(dbContext);
         var input = new ListProductsInput(1, 20);
         var useCase = new ApplicationUseCases.ListProducts.ListProducts(
-            categoryRepository
+            productRepository
         );
 
         var output = await useCase.Handle(input, CancellationToken.None);
@@ -222,10 +222,10 @@ public class CreateProductTest
         );
         await dbContext.AddRangeAsync(exampleProductsList);
         await dbContext.SaveChangesAsync(CancellationToken.None);
-        var categoryRepository = new ProductRepository(dbContext);
+        var productRepository = new ProductRepository(dbContext);
         var input = new ListProductsInput(page, perPage);
         var useCase = new ApplicationUseCases.ListProducts.ListProducts(
-            categoryRepository
+            productRepository
         );
 
         var output = await useCase.Handle(input, CancellationToken.None);
@@ -239,7 +239,7 @@ public class CreateProductTest
         foreach (ProductOutput outputItem in output.Items)
         {
             var exampleItem = exampleProductsList.Find(
-                category => category.Id == outputItem.Id
+                product => product.Id == outputItem.Id
             );
             exampleItem.Should().NotBeNull();
             outputItem.Name.Should().Be(exampleItem!.Name);

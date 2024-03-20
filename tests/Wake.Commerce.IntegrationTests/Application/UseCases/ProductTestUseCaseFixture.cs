@@ -33,22 +33,22 @@ public class ProductTestUseCaseFixture
             GetRandomPrice()
         );
 
-        public List<Product> GetExampleCategoriesListWithNames(
+        public List<Product> GetExampleProductsListWithNames(
         List<string> names
     ) => names.Select(name =>
     {
-        var category = GetExampleProduct();
-        category.Update(name);
-        return category;
+        var product = GetExampleProduct();
+        product.Update(name);
+        return product;
     }).ToList();
 
-    public List<Product> CloneCategoriesListOrdered(
-        List<Product> categoriesList,
+    public List<Product> CloneProductsListOrdered(
+        List<Product> productsList,
         string orderBy,
         SearchOrder order
     )
     {
-        var listClone = new List<Product>(categoriesList);
+        var listClone = new List<Product>(productsList);
         var orderedEnumerable = (orderBy.ToLower(), order) switch
         {
             ("name", SearchOrder.Asc) => listClone.OrderBy(x => x.Name)
