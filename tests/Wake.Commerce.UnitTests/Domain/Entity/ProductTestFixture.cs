@@ -28,7 +28,7 @@ public class ProductTestFixture : BaseFixture
 
     public decimal GetValidProductPrice()
     {
-        return Faker.Random.Decimal(0m, Faker.Random.Decimal(0, 100000));
+        return Faker.Random.Decimal(0m, 10000);
     }
 
     public Product GetValidProduct() {
